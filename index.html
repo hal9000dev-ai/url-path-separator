@@ -47,21 +47,52 @@
     <button onclick="separateUrls()" style="background:#4CAF50;">Separate URLs</button>
     <button onclick="resetFields()" style="background:#d9534f; margin-left:10px;">Reset</button>
     <br>
-    <button onclick="scrollToSection('profileSection')" style="background:#007BFF; margin-top:10px;">/Profile/</button>
-    <button onclick="scrollToSection('forumSection')" style="background:#007BFF; margin-top:10px;">/forum/</button>
-    <button onclick="scrollToSection('employerSection')" style="background:#007BFF; margin-top:10px;">/employer/</button>
-    <button onclick="scrollToSection('readblogSection')" style="background:#007BFF; margin-top:10px;">/read-blog/</button>
-    <button onclick="scrollToSection('otherSection')" style="background:#007BFF; margin-top:10px;">/other/</button>
-    <button onclick="scrollToSection('questionSection')" style="background:#007BFF; margin-top:10px;">/question/</button>
-    <button onclick="scrollToSection('communityProfileSection')" style="background:#007BFF; margin-top:10px;">/community/profile/</button>
-    <button onclick="scrollToSection('userSection')" style="background:#007BFF; margin-top:10px;">/user/</button>
-    <button onclick="scrollToSection('discussionsSection')" style="background:#007BFF; margin-top:10px;">/discussions/</button>
-    <button onclick="scrollToSection('uSection')" style="background:#007BFF; margin-top:10px;">/u/</button>
-    <button onclick="scrollToSection('snippetsSection')" style="background:#007BFF; margin-top:10px;">/snippets/</button>
-    <button onclick="scrollToSection('issuesSection')" style="background:#007BFF; margin-top:10px;">/issues/</button>
-    <button onclick="scrollToSection('projectsSection')" style="background:#007BFF; margin-top:10px;">-/projects</button>
-    <button onclick="scrollToSection('tabFieldCorePfieldSection')" style="background:#007BFF; margin-top:10px;">?tab=field_core_pfield</button>
-    <button onclick="scrollToSection('peopleSection')" style="background:#007BFF; margin-top:10px;">/people/</button>
+    </button>
+    <button id="forumButton" data-base-label="/forum/" onclick="scrollToSection('forumSection')" style="background:#007BFF; margin-top:10px;">
+      /forum/
+    </button>
+    <button id="profileButton" data-base-label="/profile/" onclick="scrollToSection('profileSection')" style="background:#007BFF; margin-top:10px;">
+      /profile/
+    </button>
+    <button id="employerButton" data-base-label="/employer/" onclick="scrollToSection('employerSection')" style="background:#007BFF; margin-top:10px;">
+      /employer/
+    </button>
+    <button id="readblogButton" data-base-label="/read-blog/" onclick="scrollToSection('readblogSection')" style="background:#007BFF; margin-top:10px;">
+      /read-blog/
+    </button>
+    <button id="otherButton" data-base-label="/other/" onclick="scrollToSection('otherSection')" style="background:#007BFF; margin-top:10px;">
+      /other/
+    </button>
+    <button id="questionButton" data-base-label="/question/" onclick="scrollToSection('questionSection')" style="background:#007BFF; margin-top:10px;">
+      /question/
+    </button>
+    <button id="communityProfileButton" data-base-label="/communityProfile/" onclick="scrollToSection('communityProfileSection')" style="background:#007BFF; margin-top:10px;">
+      /community/profile/
+    </button>
+    <button id="userButton" data-base-label="/user/" onclick="scrollToSection('userSection')" style="background:#007BFF; margin-top:10px;">
+      /user/
+    </button>
+    <button id="discussionsButton" data-base-label="/discussions/" onclick="scrollToSection('discussionsSection')" style="background:#007BFF; margin-top:10px;">
+      /discussions/
+    </button>
+    <button id="uButton" data-base-label="/u/" onclick="scrollToSection('uSection')" style="background:#007BFF; margin-top:10px;">
+      /u/
+    </button>
+    <button id="snippetsButton" data-base-label="/snippets/" onclick="scrollToSection('uSection')" style="background:#007BFF; margin-top:10px;">
+      /snippets/
+    </button>
+    <button id="issuesButton" data-base-label="/issues/" onclick="scrollToSection('issuesSection')" style="background:#007BFF; margin-top:10px;">
+      /issues/
+    </button>
+    <button id="projectsButton" data-base-label="-/projects" onclick="scrollToSection('projectsSection')" style="background:#007BFF; margin-top:10px;">
+      -/projects
+    </button>
+    <button id="tabFieldCorePfieldButton" data-base-label="?tab=field_core_pfield" onclick="scrollToSection('tabFieldCorePfieldSection')" style="background:#007BFF; margin-top:10px;">
+      ?tab=field_core_pfield
+    </button>
+    <button id="peopleButton" data-base-label="/people/" onclick="scrollToSection('peopleSection')" style="background:#007BFF; margin-top:10px;">
+      /people/
+    </button>
     <button onclick="scrollToSection('ideasSection')" style="background:#007BFF; margin-top:10px;">/ideas/</button>
     <button onclick="scrollToSection('boardSection')" style="background:#007BFF; margin-top:10px;">/board/board_topic/</button>
     <button onclick="scrollToSection('forumThreadSection')" style="background:#007BFF; margin-top:10px;">/forum/thread/</button>
@@ -380,20 +411,35 @@
         }
         // Update DOM for each category
         updateCategory('profileUrls', categories.profile);
+        updateButtonCountProfile()
         updateCategory('forumUrls', categories.forum);
+        updateButtonCountForum();
         updateCategory('employerUrls', categories.employer);
+        updateButtonCountEmployer();
         updateCategory('readblogUrls', categories.readblog);
+        updateButtonCountReadblog()
         updateCategory('otherUrls', categories.other);
+        updateButtonCountOther()
         updateCategory('questionUrls', categories.question);
+        updateButtonCountQuestion();
         updateCategory('communityProfileUrls', categories.communityProfile);
+        updateButtonCountCommunityProfile()
         updateCategory('userUrls', categories.user);
+        updateButtonCountUser()
         updateCategory('discussionsUrls', categories.discussions);
+        updateButtonCountDiscussions()
         updateCategory('uUrls', categories.u);
+        updateButtonCountU()
         updateCategory('snippetsUrls', categories.snippets);
+        updateButtonCountSnippets()
         updateCategory('issuesUrls', categories.issues);
+        updateButtonCountIssues()
         updateCategory('projectsUrls', categories.projects);
+        updateButtonCountProjects()
         updateCategory('tabFieldCorePfieldUrls', categories.tabFieldCorePfield);
+        updateButtonCounttabFieldCorePfield()
         updateCategory('peopleUrls', categories.people);
+        updateButtonCountPeople()
         updateCategory('ideasUrls', categories.ideas);
         updateCategory('boardUrls', categories.board);
         updateCategory('forumThreadUrls', categories.forumThread);
@@ -440,7 +486,171 @@
           behavior: 'smooth'
         });
       }
-    </script>
+      function updateButtonCountEmployer() {
+        const button = document.getElementById('employerButton');
+        const countContainer = document.getElementById('employerUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountProfile() {
+        const button = document.getElementById('profileButton');
+        const countContainer = document.getElementById('profileUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountForum() {
+        const button = document.getElementById('forumButton');
+        const countContainer = document.getElementById('forumUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountReadblog() {
+        const button = document.getElementById('readblogButton');
+        const countContainer = document.getElementById('readblogUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountOther() {
+        const button = document.getElementById('otherButton');
+        const countContainer = document.getElementById('otherUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountQuestion() {
+        const button = document.getElementById('questionButton');
+        const countContainer = document.getElementById('questionUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountCommunityProfile() {
+        const button = document.getElementById('communityProfileButton');
+        const countContainer = document.getElementById('communityProfileUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountUser() {
+        const button = document.getElementById('userButton');
+        const countContainer = document.getElementById('userUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountDiscussions() {
+        const button = document.getElementById('discussionsButton');
+        const countContainer = document.getElementById('discussionsUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountU() {
+        const button = document.getElementById('uButton');
+        const countContainer = document.getElementById('uUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountSnippets() {
+        const button = document.getElementById('snippetsButton');
+        const countContainer = document.getElementById('snippetsUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountIssues() {
+        const button = document.getElementById('issuesButton');
+        const countContainer = document.getElementById('issuesUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountProjects() {
+        const button = document.getElementById('projectsButton');
+        const countContainer = document.getElementById('projectsUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCounttabFieldCorePfield() {
+        const button = document.getElementById('tabFieldCorePfieldButton');
+        const countContainer = document.getElementById('tabFieldCorePfieldUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
+      function updateButtonCountPeople() {
+        const button = document.getElementById('peopleButton');
+        const countContainer = document.getElementById('peopleUrls'); // The container with URLs
+        // Count the number of URLs (lines in the text content)
+        const text = countContainer.textContent.trim();
+        const urlCount = text === "No URLs" || text === "" ? 0 : text.split("\n").length;
+        // Retrieve the base label
+        const baseLabel = button.getAttribute('data-base-label');
+        // Update button text to include count
+        button.textContent = `${baseLabel} (${urlCount})`;
+      }
     </script>
   </body>
 </html>
