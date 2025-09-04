@@ -1,23 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>URL Path Separator</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logo Intro then Main Tool</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         max-width: 1200px;
         margin: auto;
         padding: 20px;
-        background: #0F0F0F;
-        color: white;
+        background: #F0EDCC;
+        color: #02343F;
+      }
+      /* Overlay covering the entire page for intro animation */
+      #introOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #f0f0f0;
+        /* same as your background or any color you prefer */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+      /* Container for logos inside overlay */
+      .logo-container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      /* Style for each logo with animation */
+      .logo {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+        transform: scale(2);
+        animation: fadeInScale 1s ease-in-out forwards;
+      }
+      /* Sequential delay for each logo for a nice effect */
+      .logo:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .logo:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .logo:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+      .logo:nth-child(4) {
+        animation-delay: 0.8s;
+      }
+      @keyframes fadeInScale {
+        0% {
+          opacity: 0;
+          transform: scale(6);
+        }
+        70% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      /* Main content (hidden initially) */
+      #mainTool {
+        display: none;
+        /* Hidden until overlay is gone */
       }
       textarea {
         width: 100%;
         margin-bottom: 10px;
         padding: 8px;
         font-size: 14px;
-        background: #232D3F;
-        color: white;
+        background: #F0EDCC;
+        color: #02343F;
       }
       button {
         padding: 10px 15px;
@@ -30,7 +89,7 @@
       }
       .container {
         position: relative;
-        background: #232D3F;
+        background: #F0EDCC;
         padding: 10px;
         border: 1px solid #ccc;
         margin-top: 20px;
@@ -48,7 +107,7 @@
         /* adjust as needed */
         left: 10px;
         /* adjust as needed */
-        background-color: #005B41;
+        background-color: #02343F;
         color: white;
         border: none;
         padding: 5px 10px;
@@ -68,441 +127,456 @@
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
       }
       #urlInput::placeholder {
-        color: white;
+        color: #02343F;
         /* Replace with your desired color */
         opacity: 1;
         /* Optional: make placeholder fully opaque */
       }
       #downloadBtn {
-        color: black;
+        color: #F0EDCC;
         font-weight: bold;
       }
       .container h3 {
-        color: white;
+        color: #02343F;
       }
     </style>
   </head>
   <body>
-    <h2>URL Path Separator</h2>
-    <p>Paste URLs (one per line):</p>
-    <textarea id="urlInput" rows="8" placeholder="https://example.com/forums/thread1"></textarea>
-    <button onclick="separateUrls()" style="background:#FF6500;">Separate URLs</button>
-    <button id="downloadBtn" style="background:#FFF4B7; margin-left:10px;" onclick="downloadResult()">Download Result</button>
-    <button onclick="resetFields()" style="background:#CD1818; margin-left:10px;">Reset</button>
-    <br>
-    </button>
-    <button id="forumButton" data-base-label="/forum/" onclick="scrollToSection('forumSection')" style="background:#008170; margin-top:10px;">
-      /forum/
-    </button>
-    <button id="profileButton" data-base-label="/profile/" onclick="scrollToSection('profileSection')" style="background:#008170; margin-top:10px;">
-      /profile/
-    </button>
-    <button id="employerButton" data-base-label="/employer/" onclick="scrollToSection('employerSection')" style="background:#008170; margin-top:10px;">
-      /employer/
-    </button>
-    <button id="readblogButton" data-base-label="/read-blog/" onclick="scrollToSection('readblogSection')" style="background:#008170; margin-top:10px;">
-      /read-blog/
-    </button>
-    <button id="otherButton" data-base-label="/other/" onclick="scrollToSection('otherSection')" style="background:#008170; margin-top:10px;">
-      /other/
-    </button>
-    <button id="questionButton" data-base-label="/question/" onclick="scrollToSection('questionSection')" style="background:#008170; margin-top:10px;">
-      /question/
-    </button>
-    <button id="communityProfileButton" data-base-label="/communityProfile/" onclick="scrollToSection('communityProfileSection')" style="background:#008170; margin-top:10px;">
-      /community/profile/
-    </button>
-    <button id="userButton" data-base-label="/user/" onclick="scrollToSection('userSection')" style="background:#008170; margin-top:10px;">
-      /user/
-    </button>
-    <button id="discussionsButton" data-base-label="/discussions/" onclick="scrollToSection('discussionsSection')" style="background:#008170; margin-top:10px;">
-      /discussions/
-    </button>
-    <button id="uButton" data-base-label="/u/" onclick="scrollToSection('uSection')" style="background:#008170; margin-top:10px;">
-      /u/
-    </button>
-    <button id="snippetsButton" data-base-label="/snippets/" onclick="scrollToSection('uSection')" style="background:#008170; margin-top:10px;">
-      /snippets/
-    </button>
-    <button id="issuesButton" data-base-label="/issues/" onclick="scrollToSection('issuesSection')" style="background:#008170; margin-top:10px;">
-      /issues/
-    </button>
-    <button id="projectsButton" data-base-label="-/projects" onclick="scrollToSection('projectsSection')" style="background:#008170; margin-top:10px;">
-      -/projects
-    </button>
-    <button id="tabFieldCorePfieldButton" data-base-label="?tab=field_core_pfield" onclick="scrollToSection('tabFieldCorePfieldSection')" style="background:#008170; margin-top:10px;">
-      ?tab=field_core_pfield
-    </button>
-    <button id="peopleButton" data-base-label="/people/" onclick="scrollToSection('peopleSection')" style="background:#008170; margin-top:10px;">
-      /people/
-    </button>
-    <button id="ideasButton" data-base-label="/ideas/" onclick="scrollToSection('ideasSection')" style="background:#008170; margin-top:10px;">
-      /ideas/
-    </button>
-    <button id="boardButton" data-base-label="/board/board_topic/" onclick="scrollToSection('boardSection')" style="background:#008170; margin-top:10px;">
-      /board/board_topic/
-    </button>
-    <button id="forumThreadButton" data-base-label="/forum/thread/" onclick="scrollToSection('forumThreadSection')" style="background:#008170; margin-top:10px;">
-      /forum/thread/
-    </button>
-    <button id="blogsButton" data-base-label="/blogs/" onclick="scrollToSection('blogsSection')" style="background:#008170; margin-top:10px;">
-      /blogs/
-    </button>
-    <button id="listingButton" data-base-label="/listing/" onclick="scrollToSection('listingSection')" style="background:#008170; margin-top:10px;">
-      /listing/
-    </button>
-    <button id="mysiteGroupButton" data-base-label="/mysite-200-group/" onclick="scrollToSection('mysiteGroupSection')" style="background:#008170; margin-top:10px;">
-      mysite-200-group
-    </button>
-    <button id="groupButton" data-base-label="/group/" onclick="scrollToSection('groupSection')" style="background:#008170; margin-top:10px;">
-      /group/
-    </button>
-    <button id="forumsTopicButton" data-base-label="/forums/topic/" onclick="scrollToSection('forumsTopicSection')" style="background:#008170; margin-top:10px;">
-      /forums/topic/
-    </button>
-    <button id="mncoPostsButton" data-base-label="mn.co/posts/" onclick="scrollToSection('mncoPostsSection')" style="background:#008170; margin-top:10px;">
-      mn.co/posts/
-    </button>
-    <button id="memberButton" data-base-label="/member/" onclick="scrollToSection('memberSection')" style="background:#008170; margin-top:10px;">
-      /member/
-    </button>
-    <button id="candidateButton" data-base-label="/candidate/" onclick="scrollToSection('candidateSection')" style="background:#008170; margin-top:10px;">
-      /candidate/
-    </button>
-    <button id="authorButton" data-base-label="/author/" onclick="scrollToSection('authorSection')" style="background:#008170; margin-top:10px;">
-      /author/
-    </button>
-    <button id="companyButton" data-base-label="/company/" onclick="scrollToSection('companySection')" style="background:#008170; margin-top:10px;">
-      /company/
-    </button>
-    <button id="companiesButton" data-base-label="/companies/" onclick="scrollToSection('companiesSection')" style="background:#008170; margin-top:10px;">
-      /companies/
-    </button>
-    <button id="forumsUsersButton" data-base-label="/forums/users/" onclick="scrollToSection('forumsUsersSection')" style="background:#008170; margin-top:10px;">
-      /forums/users/
-    </button>
-    <button id="classifiedsButton" data-base-label="/classifieds/" onclick="scrollToSection('classifiedsSection')" style="background:#008170; margin-top:10px;">
-      /classifieds/
-    </button>
-    <button id="adsButton" data-base-label="/ads/" onclick="scrollToSection('adsSection')" style="background:#008170; margin-top:10px;">
-      /ads/
-    </button>
-    <button id="users2Button" data-base-label="/users/" onclick="scrollToSection('users2Section')" style="background:#008170; margin-top:10px;">
-      /users/
-    </button>
-    <button id="member2Button" data-base-label="/members/" onclick="scrollToSection('member2Section')" style="background:#008170; margin-top:10px;">
-      /members/
-    </button>
-    <button id="topicButton" data-base-label="/topic/" onclick="scrollToSection('topicSection')" style="background:#008170; margin-top:10px;">
-      /topic/
-    </button>
-    <button id="servicesButton" data-base-label="/services/" onclick="scrollToSection('servicesSection')" style="background:#008170; margin-top:10px;">
-      /services/
-    </button>
-    <button id="discussButton" data-base-label="/discuss/" onclick="scrollToSection('discussSection')" style="background:#008170; margin-top:10px;">
-      /discuss/
-    </button>
-    <button id="profile2Button" data-base-label="/profiles/" onclick="scrollToSection('profile2Section')" style="background:#008170; margin-top:10px;">
-      /profiles/
-    </button>
-    <button id="employer2Button" data-base-label="/employers/" onclick="scrollToSection('employer2Section')" style="background:#008170; margin-top:10px;">
-      /employers/
-    </button>
-    <button id="wikiButton" data-base-label="/wiki/" onclick="scrollToSection('wikiSection')" style="background:#008170; margin-top:10px;">
-      /wiki/
-    </button>
-    <button id="postsButton" data-base-label="/posts/" onclick="scrollToSection('postsSection')" style="background:#008170; margin-top:10px;">
-      /posts/
-    </button>
-    <button id="pButton" data-base-label="/p/" onclick="scrollToSection('pSection')" style="background:#008170; margin-top:10px;">
-      /p/
-    </button>
-    <button id="pageButton" data-base-label="/page/" onclick="scrollToSection('pageSection')" style="background:#008170; margin-top:10px;">
-      /page/
-    </button>
-    <button id="atSignButton" data-base-label="/@" onclick="scrollToSection('@Section')" style="background:#008170; margin-top:10px;">
-      /@
-    </button>
-    <button id="mediaButton" data-base-label="/media/" onclick="scrollToSection('mediaSection')" style="background:#008170; margin-top:10px;">
-      /media/
-    </button>
-    <button id="webPageButton" data-base-label="/webpage/" onclick="scrollToSection('webPageSection')" style="background:#008170; margin-top:10px;">
-      /webpage/
-    </button>
-    <button id="blogButton" data-base-label="/blog/" onclick="scrollToSection('blogSection')" style="background:#008170; margin-top:10px;">
-      /blog/
-    </button>
-    <button id="ideaButton" data-base-label="/idea/" onclick="scrollToSection('ideaSection')" style="background:#008170; margin-top:10px;">
-      /idea/
-    </button>
-    <button id="forumsButton" data-base-label="/forums/" onclick="scrollToSection('forumsSection')" style="background:#008170; margin-top:10px;">
-      /forums/
-    </button>
-    <button id="guestbookHtmlButton" data-base-label="/guestbook.html/" onclick="scrollToSection('guestbookHtmlSection')" style="background:#008170; margin-top:10px;">
-      /guestbook.html
-    </button>
-    </button>
-    <button id="viewtopicButton" data-base-label="/viewtopic." onclick="scrollToSection('viewtopicSection')" style="background:#008170; margin-top:10px;">
-      /viewtopic.
-    </button>
 
-    <!-- Existing categories -->
-    <div id="profileSection" class="container">
-      <h3>/Profile/</h3>
-      <button class="copy-button" onclick="copyToClipboard('profileUrls')">Copy URLs</button>
-      <div id="profileUrls">No URLs</div>
-    </div>
-    <div id="forumSection" class="container">
-      <h3>/forum/</h3>
-      <button class="copy-button" onclick="copyToClipboard('forumUrls')">Copy URLs</button>
-      <div id="forumUrls">No URLs</div>
-    </div>
-    <div id="employerSection" class="container">
-      <h3>/employer/</h3>
-      <button class="copy-button" onclick="copyToClipboard('employerUrls')">Copy URLs</button>
-      <div id="employerUrls">No URLs</div>
-    </div>
-    <div id="readblogSection" class="container">
-      <button class="copy-button" onclick="copyToClipboard('readblogUrls')">Copy URLs</button>
-      <h3>/read-blog/</h3>
-      <div id="readblogUrls">No URLs</div>
-    </div>
-    <div id="otherSection" class="container">
-      <button class="copy-button" onclick="copyToClipboard('otherUrls')">Copy URLs</button>
-      <h3>/other/</h3>
-      <div id="otherUrls">No URLs</div>
+    <!-- Intro overlay with logos -->
+    <div id="introOverlay">
+      <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" alt="HTML Logo" class="logo" />
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" alt="CSS Logo" class="logo" />
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="JavaScript Logo" class="logo" />
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React Logo" class="logo" />
+      </div>
     </div>
 
-    <!-- New categories for the 26 paths -->
-    <div id="questionSection" class="container">
-      <h3>/question/</h3>
-      <button class="copy-button" onclick="copyToClipboard('questionUrls')">Copy URLs</button>
-      <div id="questionUrls">No URLs</div>
-    </div>
-    <div id="communityProfileSection" class="container">
-      <h3>/community/profile/</h3>
-      <button class="copy-button" onclick="copyToClipboard('communityProfileUrls')">Copy URLs</button>
-      <div id="communityProfileUrls">No URLs</div>
-    </div>
-    <div id="userSection" class="container">
-      <button class="copy-button" onclick="copyToClipboard('userUrls')">Copy URLs</button>
-      <h3>/user/</h3>
-      <div id="userUrls">No URLs</div>
-    </div>
-    <div id="discussionsSection" class="container">
-      <h3>/discussions/</h3>
-      <button class="copy-button" onclick="copyToClipboard('discussionsUrls')">Copy URLs</button>
-      <div id="discussionsUrls">No URLs</div>
-    </div>
-    <div id="uSection" class="container">
-      <h3>/u/</h3>
-      <button class="copy-button" onclick="copyToClipboard('uUrls')">Copy URLs</button>
-      <div id="uUrls">No URLs</div>
-    </div>
-    <div id="snippetsSection" class="container">
-      <h3>/snippets/</h3>
-      <button class="copy-button" onclick="copyToClipboard('snippetsUrls')">Copy URLs</button>
-      <div id="snippetsUrls">No URLs</div>
-    </div>
-    <div id="issuesSection" class="container">
-      <h3>/issues/</h3>
-      <button class="copy-button" onclick="copyToClipboard('issuesUrls')">Copy URLs</button>
-      <div id="issuesUrls">No URLs</div>
-    </div>
-    <div id="projectsSection" class="container">
-      <h3>-/projects</h3>
-      <button class="copy-button" onclick="copyToClipboard('projectsUrls')">Copy URLs</button>
-      <div id="projectsUrls">No URLs</div>
-    </div>
-    <div id="tabFieldCorePfieldSection" class="container">
-      <h3>?tab=field_core_pfield</h3>
-      <button class="copy-button" onclick="copyToClipboard('tabFieldCorePfieldUrls')">Copy URLs</button>
-      <div id="tabFieldCorePfieldUrls">No URLs</div>
-    </div>
-    <div id="peopleSection" class="container">
-      <h3>/people/</h3>
-      <button class="copy-button" onclick="copyToClipboard('peopleUrls')">Copy URLs</button>
-      <div id="peopleUrls">No URLs</div>
-    </div>
-    <div id="ideasSection" class="container">
-      <h3>/ideas/</h3>
-      <button class="copy-button" onclick="copyToClipboard('ideasUrls')">Copy URLs</button>
-      <div id="ideasUrls">No URLs</div>
-    </div>
-    <div id="boardSection" class="container">
-      <h3>/board/board_topic/</h3>
-      <button class="copy-button" onclick="copyToClipboard('boardUrls')">Copy URLs</button>
-      <div id="boardUrls">No URLs</div>
-    </div>
-    <div id="forumThreadSection" class="container">
-      <h3>/forum/thread/</h3>
-      <button class="copy-button" onclick="copyToClipboard('forumThreadUrls')">Copy URLs</button>
-      <div id="forumThreadUrls">No URLs</div>
-    </div>
-    <div id="blogsSection" class="container">
-      <h3>/blogs/</h3>
-      <button class="copy-button" onclick="copyToClipboard('blogsUrls')">Copy URLs</button>
-      <div id="blogsUrls">No URLs</div>
-    </div>
-    <div id="listingSection" class="container">
-      <h3>/listing/</h3>
-      <button class="copy-button" onclick="copyToClipboard('listingUrls')">Copy URLs</button>
-      <div id="listingUrls">No URLs</div>
-    </div>
-    <div id="mysiteGroupSection" class="container">
-      <h3>mysite-200-group</h3>
-      <button class="copy-button" onclick="copyToClipboard('mysiteGroupUrls')">Copy URLs</button>
-      <div id="mysiteGroupUrls">No URLs</div>
-    </div>
-    <div id="groupSection" class="container">
-      <h3>/group/</h3>
-      <button class="copy-button" onclick="copyToClipboard('groupUrls')">Copy URLs</button>
-      <div id="groupUrls">No URLs</div>
-    </div>
-    <div id="forumsTopicSection" class="container">
-      <h3>/forums/topic/</h3>
-      <button class="copy-button" onclick="copyToClipboard('forumsTopicUrls')">Copy URLs</button>
-      <div id="forumsTopicUrls">No URLs</div>
-    </div>
-    <div id="mncoPostsSection" class="container">
-      <h3>mn.co/posts/</h3>
-      <button class="copy-button" onclick="copyToClipboard('mncoPostsUrls')">Copy URLs</button>
-      <div id="mncoPostsUrls">No URLs</div>
-    </div>
-    <div id="memberSection" class="container">
-      <h3>/member/</h3>
-      <button class="copy-button" onclick="copyToClipboard('memberUrls')">Copy URLs</button>
-      <div id="memberUrls">No URLs</div>
-    </div>
-    <div id="candidateSection" class="container">
-      <h3>/candidate/</h3>
-      <button class="copy-button" onclick="copyToClipboard('candidateUrls')">Copy URLs</button>
-      <div id="candidateUrls">No URLs</div>
-    </div>
-    <div id="authorSection" class="container">
-      <h3>/author/</h3>
-      <button class="copy-button" onclick="copyToClipboard('authorUrls')">Copy URLs</button>
-      <div id="authorUrls">No URLs</div>
-    </div>
-    <div id="companySection" class="container">
-      <h3>/company/</h3>
-      <button class="copy-button" onclick="copyToClipboard('companyUrls')">Copy URLs</button>
-      <div id="companyUrls">No URLs</div>
-    </div>
-    <div id="companiesSection" class="container">
-      <h3>/companies/</h3>
-      <button class="copy-button" onclick="copyToClipboard('companiesUrls')">Copy URLs</button>
-      <div id="companiesUrls">No URLs</div>
-    </div>
-    <div id="forumsUsersSection" class="container">
-      <h3>/forums/users/</h3>
-      <button class="copy-button" onclick="copyToClipboard('forumsUsersUrls')">Copy URLs</button>
-      <div id="forumsUsersUrls">No URLs</div>
-    </div>
-    <div id="classifiedsSection" class="container">
-      <h3>/classifieds/</h3>
-      <button class="copy-button" onclick="copyToClipboard('classifiedsUrls')">Copy URLs</button>
-      <div id="classifiedsUrls">No URLs</div>
-    </div>
-    <div id="adsSection" class="container">
-      <h3>/ads/</h3>
-      <button class="copy-button" onclick="copyToClipboard('adsUrls')">Copy URLs</button>
-      <div id="adsUrls">No URLs</div>
-    </div>
-    <div id="users2Section" class="container">
-      <h3>/users/</h3>
-      <button class="copy-button" onclick="copyToClipboard('users2Urls')">Copy URLs</button>
-      <div id="users2Urls">No URLs</div>
-    </div>
-    <div id="member2Section" class="container">
-      <h3>/members/</h3>
-      <button class="copy-button" onclick="copyToClipboard('member2Urls')">Copy URLs</button>
-      <div id="member2Urls">No URLs</div>
-    </div>
-    <div id="topicSection" class="container">
-      <h3>/topic/</h3>
-      <button class="copy-button" onclick="copyToClipboard('topicUrls')">Copy URLs</button>
-      <div id="topicUrls">No URLs</div>
-    </div>
-    <div id="servicesSection" class="container">
-      <h3>/services/</h3>
-      <button class="copy-button" onclick="copyToClipboard('servicesUrls')">Copy URLs</button>
-      <div id="servicesUrls">No URLs</div>
-    </div>
-    <div id="discussSection" class="container">
-      <h3>/discuss/</h3>
-      <button class="copy-button" onclick="copyToClipboard('discussUrls')">Copy URLs</button>
-      <div id="discussUrls">No URLs</div>
-    </div>
-    <div id="profile2Section" class="container">
-      <h3>/profiles/</h3>
-      <button class="copy-button" onclick="copyToClipboard('profile2Urls')">Copy URLs</button>
-      <div id="profile2Urls">No URLs</div>
-    </div>
-    <div id="employer2Section" class="container">
-      <h3>/employers/</h3>
-      <button class="copy-button" onclick="copyToClipboard('employer2Urls')">Copy URLs</button>
-      <div id="employer2Urls">No URLs</div>
-    </div>
-    <div id="wikiSection" class="container">
-      <h3>/wiki/</h3>
-      <button class="copy-button" onclick="copyToClipboard('wikiUrls')">Copy URLs</button>
-      <div id="wikiUrls">No URLs</div>
-    </div>
-    <div id="postsSection" class="container">
-      <h3>/posts/</h3>
-      <button class="copy-button" onclick="copyToClipboard('postsUrls')">Copy URLs</button>
-      <div id="postsUrls">No URLs</div>
-    </div>
-    <div id="pSection" class="container">
-      <h3>/p/</h3>
-      <button class="copy-button" onclick="copyToClipboard('pUrls')">Copy URLs</button>
-      <div id="pUrls">No URLs</div>
-    </div>
-    <div id="pageSection" class="container">
-      <h3>/page/</h3>
-      <button class="copy-button" onclick="copyToClipboard('pageUrls')">Copy URLs</button>
-      <div id="pageUrls">No URLs</div>
-    </div>
-    <div id="@Section" class="container">
-      <h3>/@</h3>
-      <button class="copy-button" onclick="copyToClipboard('atSignUrls')">Copy URLs</button>
-      <div id="atSignUrls">No URLs</div>
-    </div>
-    <div id="mediaSection" class="container">
-      <h3>Media</h3>
-      <button class="copy-button" onclick="copyToClipboard('mediaUrls')">Copy URLs</button>
-      <div id="mediaUrls">No URLs</div>
-    </div>
-    <div id="webPageSection" class="container">
-      <h3>/Webpage/</h3>
-      <button class="copy-button" onclick="copyToClipboard('webPageUrls')">Copy URLs</button>
-      <div id="webPageUrls">No URLs</div>
-    </div>
-    <div id="blogSection" class="container">
-      <h3>/blog/</h3>
-      <button class="copy-button" onclick="copyToClipboard('blogUrls')">Copy URLs</button>
-      <div id="blogUrls">No URLs</div>
-    </div>
-    <div id="ideaSection" class="container">
-      <h3>/idea/</h3>
-      <button class="copy-button" onclick="copyToClipboard('ideaUrls')">Copy URLs</button>
-      <div id="ideaUrls">No URLs</div>
-    </div>
-    <div id="forumsSection" class="container">
-      <h3>/forums/</h3>
-      <button class="copy-button" onclick="copyToClipboard('forumsUrls')">Copy URLs</button>
-      <div id="forumsUrls">No URLs</div>
-    </div>
-    <div id="guestbookHtmlSection" class="container">
-      <h3>/guestbook.html</h3>
-      <button class="copy-button" onclick="copyToClipboard('guestbookHtmlUrls')">Copy URLs</button>
-      <div id="guestbookHtmlUrls">No URLs</div>
-    </div>
-    <div id="viewtopicSection" class="container">
-      <h3>/viewtopic.</h3>
-      <button class="copy-button" onclick="copyToClipboard('viewtopicUrls')">Copy URLs</button>
-      <div id="viewtopicUrls">No URLs</div>
+    <!-- Your main tool content -->
+    <div id="mainTool">
+      <body>
+        <h2>URL Path Separator</h2>
+        <p>Paste URLs (one per line):</p>
+        <textarea id="urlInput" rows="8" placeholder="https://example.com/forums/thread1"></textarea>
+        <button onclick="separateUrls()" style="background:#FF6500;">Separate URLs</button>
+        <button id="downloadBtn" style="background:#06923E; margin-left:10px;" onclick="downloadResult()">Download Result</button>
+        <button onclick="resetFields()" style="background:#CD1818; margin-left:10px;">Reset</button>
+        <br>
+        </button>
+        <button id="forumButton" data-base-label="/forum/" onclick="scrollToSection('forumSection')" style="background:#02343F; margin-top:10px;">
+          /forum/
+        </button>
+        <button id="profileButton" data-base-label="/profile/" onclick="scrollToSection('profileSection')" style="background:#02343F; margin-top:10px;">
+          /profile/
+        </button>
+        <button id="employerButton" data-base-label="/employer/" onclick="scrollToSection('employerSection')" style="background:#02343F; margin-top:10px;">
+          /employer/
+        </button>
+        <button id="readblogButton" data-base-label="/read-blog/" onclick="scrollToSection('readblogSection')" style="background:#02343F; margin-top:10px;">
+          /read-blog/
+        </button>
+        <button id="otherButton" data-base-label="/other/" onclick="scrollToSection('otherSection')" style="background:#02343F; margin-top:10px;">
+          /other/
+        </button>
+        <button id="questionButton" data-base-label="/question/" onclick="scrollToSection('questionSection')" style="background:#02343F; margin-top:10px;">
+          /question/
+        </button>
+        <button id="communityProfileButton" data-base-label="/communityProfile/" onclick="scrollToSection('communityProfileSection')" style="background:#02343F; margin-top:10px;">
+          /community/profile/
+        </button>
+        <button id="userButton" data-base-label="/user/" onclick="scrollToSection('userSection')" style="background:#02343F; margin-top:10px;">
+          /user/
+        </button>
+        <button id="discussionsButton" data-base-label="/discussions/" onclick="scrollToSection('discussionsSection')" style="background:#02343F; margin-top:10px;">
+          /discussions/
+        </button>
+        <button id="uButton" data-base-label="/u/" onclick="scrollToSection('uSection')" style="background:#02343F; margin-top:10px;">
+          /u/
+        </button>
+        <button id="snippetsButton" data-base-label="/snippets/" onclick="scrollToSection('uSection')" style="background:#02343F; margin-top:10px;">
+          /snippets/
+        </button>
+        <button id="issuesButton" data-base-label="/issues/" onclick="scrollToSection('issuesSection')" style="background:#02343F; margin-top:10px;">
+          /issues/
+        </button>
+        <button id="projectsButton" data-base-label="-/projects" onclick="scrollToSection('projectsSection')" style="background:#02343F; margin-top:10px;">
+          -/projects
+        </button>
+        <button id="tabFieldCorePfieldButton" data-base-label="?tab=field_core_pfield" onclick="scrollToSection('tabFieldCorePfieldSection')" style="background:#02343F; margin-top:10px;">
+          ?tab=field_core_pfield
+        </button>
+        <button id="peopleButton" data-base-label="/people/" onclick="scrollToSection('peopleSection')" style="background:#02343F; margin-top:10px;">
+          /people/
+        </button>
+        <button id="ideasButton" data-base-label="/ideas/" onclick="scrollToSection('ideasSection')" style="background:#02343F; margin-top:10px;">
+          /ideas/
+        </button>
+        <button id="boardButton" data-base-label="/board/board_topic/" onclick="scrollToSection('boardSection')" style="background:#02343F; margin-top:10px;">
+          /board/board_topic/
+        </button>
+        <button id="forumThreadButton" data-base-label="/forum/thread/" onclick="scrollToSection('forumThreadSection')" style="background:#02343F; margin-top:10px;">
+          /forum/thread/
+        </button>
+        <button id="blogsButton" data-base-label="/blogs/" onclick="scrollToSection('blogsSection')" style="background:#02343F; margin-top:10px;">
+          /blogs/
+        </button>
+        <button id="listingButton" data-base-label="/listing/" onclick="scrollToSection('listingSection')" style="background:#02343F; margin-top:10px;">
+          /listing/
+        </button>
+        <button id="mysiteGroupButton" data-base-label="/mysite-200-group/" onclick="scrollToSection('mysiteGroupSection')" style="background:#02343F; margin-top:10px;">
+          mysite-200-group
+        </button>
+        <button id="groupButton" data-base-label="/group/" onclick="scrollToSection('groupSection')" style="background:#02343F; margin-top:10px;">
+          /group/
+        </button>
+        <button id="forumsTopicButton" data-base-label="/forums/topic/" onclick="scrollToSection('forumsTopicSection')" style="background:#02343F; margin-top:10px;">
+          /forums/topic/
+        </button>
+        <button id="mncoPostsButton" data-base-label="mn.co/posts/" onclick="scrollToSection('mncoPostsSection')" style="background:#02343F; margin-top:10px;">
+          mn.co/posts/
+        </button>
+        <button id="memberButton" data-base-label="/member/" onclick="scrollToSection('memberSection')" style="background:#02343F; margin-top:10px;">
+          /member/
+        </button>
+        <button id="candidateButton" data-base-label="/candidate/" onclick="scrollToSection('candidateSection')" style="background:#02343F; margin-top:10px;">
+          /candidate/
+        </button>
+        <button id="authorButton" data-base-label="/author/" onclick="scrollToSection('authorSection')" style="background:#02343F; margin-top:10px;">
+          /author/
+        </button>
+        <button id="companyButton" data-base-label="/company/" onclick="scrollToSection('companySection')" style="background:#02343F; margin-top:10px;">
+          /company/
+        </button>
+        <button id="companiesButton" data-base-label="/companies/" onclick="scrollToSection('companiesSection')" style="background:#02343F; margin-top:10px;">
+          /companies/
+        </button>
+        <button id="forumsUsersButton" data-base-label="/forums/users/" onclick="scrollToSection('forumsUsersSection')" style="background:#02343F; margin-top:10px;">
+          /forums/users/
+        </button>
+        <button id="classifiedsButton" data-base-label="/classifieds/" onclick="scrollToSection('classifiedsSection')" style="background:#02343F; margin-top:10px;">
+          /classifieds/
+        </button>
+        <button id="adsButton" data-base-label="/ads/" onclick="scrollToSection('adsSection')" style="background:#02343F; margin-top:10px;">
+          /ads/
+        </button>
+        <button id="users2Button" data-base-label="/users/" onclick="scrollToSection('users2Section')" style="background:#02343F; margin-top:10px;">
+          /users/
+        </button>
+        <button id="member2Button" data-base-label="/members/" onclick="scrollToSection('member2Section')" style="background:#02343F; margin-top:10px;">
+          /members/
+        </button>
+        <button id="topicButton" data-base-label="/topic/" onclick="scrollToSection('topicSection')" style="background:#02343F; margin-top:10px;">
+          /topic/
+        </button>
+        <button id="servicesButton" data-base-label="/services/" onclick="scrollToSection('servicesSection')" style="background:#02343F; margin-top:10px;">
+          /services/
+        </button>
+        <button id="discussButton" data-base-label="/discuss/" onclick="scrollToSection('discussSection')" style="background:#02343F; margin-top:10px;">
+          /discuss/
+        </button>
+        <button id="profile2Button" data-base-label="/profiles/" onclick="scrollToSection('profile2Section')" style="background:#02343F; margin-top:10px;">
+          /profiles/
+        </button>
+        <button id="employer2Button" data-base-label="/employers/" onclick="scrollToSection('employer2Section')" style="background:#02343F; margin-top:10px;">
+          /employers/
+        </button>
+        <button id="wikiButton" data-base-label="/wiki/" onclick="scrollToSection('wikiSection')" style="background:#02343F; margin-top:10px;">
+          /wiki/
+        </button>
+        <button id="postsButton" data-base-label="/posts/" onclick="scrollToSection('postsSection')" style="background:#02343F; margin-top:10px;">
+          /posts/
+        </button>
+        <button id="pButton" data-base-label="/p/" onclick="scrollToSection('pSection')" style="background:#02343F; margin-top:10px;">
+          /p/
+        </button>
+        <button id="pageButton" data-base-label="/page/" onclick="scrollToSection('pageSection')" style="background:#02343F; margin-top:10px;">
+          /page/
+        </button>
+        <button id="atSignButton" data-base-label="/@" onclick="scrollToSection('@Section')" style="background:#02343F; margin-top:10px;">
+          /@
+        </button>
+        <button id="mediaButton" data-base-label="/media/" onclick="scrollToSection('mediaSection')" style="background:#02343F; margin-top:10px;">
+          /media/
+        </button>
+        <button id="webPageButton" data-base-label="/webpage/" onclick="scrollToSection('webPageSection')" style="background:#02343F; margin-top:10px;">
+          /webpage/
+        </button>
+        <button id="blogButton" data-base-label="/blog/" onclick="scrollToSection('blogSection')" style="background:#02343F; margin-top:10px;">
+          /blog/
+        </button>
+        <button id="ideaButton" data-base-label="/idea/" onclick="scrollToSection('ideaSection')" style="background:#02343F; margin-top:10px;">
+          /idea/
+        </button>
+        <button id="forumsButton" data-base-label="/forums/" onclick="scrollToSection('forumsSection')" style="background:#02343F; margin-top:10px;">
+          /forums/
+        </button>
+        <button id="guestbookHtmlButton" data-base-label="/guestbook.html/" onclick="scrollToSection('guestbookHtmlSection')" style="background:#02343F; margin-top:10px;">
+          /guestbook.html
+        </button>
+        </button>
+        <button id="viewtopicButton" data-base-label="/viewtopic." onclick="scrollToSection('viewtopicSection')" style="background:#02343F; margin-top:10px;">
+          /viewtopic.
+        </button>
+
+        <!-- Existing categories -->
+        <div id="profileSection" class="container">
+          <h3>/Profile/</h3>
+          <button class="copy-button" onclick="copyToClipboard('profileUrls')">Copy URLs</button>
+          <div id="profileUrls">No URLs</div>
+        </div>
+        <div id="forumSection" class="container">
+          <h3>/forum/</h3>
+          <button class="copy-button" onclick="copyToClipboard('forumUrls')">Copy URLs</button>
+          <div id="forumUrls">No URLs</div>
+        </div>
+        <div id="employerSection" class="container">
+          <h3>/employer/</h3>
+          <button class="copy-button" onclick="copyToClipboard('employerUrls')">Copy URLs</button>
+          <div id="employerUrls">No URLs</div>
+        </div>
+        <div id="readblogSection" class="container">
+          <button class="copy-button" onclick="copyToClipboard('readblogUrls')">Copy URLs</button>
+          <h3>/read-blog/</h3>
+          <div id="readblogUrls">No URLs</div>
+        </div>
+        <div id="otherSection" class="container">
+          <button class="copy-button" onclick="copyToClipboard('otherUrls')">Copy URLs</button>
+          <h3>/other/</h3>
+          <div id="otherUrls">No URLs</div>
+        </div>
+
+        <!-- New categories for the 26 paths -->
+        <div id="questionSection" class="container">
+          <h3>/question/</h3>
+          <button class="copy-button" onclick="copyToClipboard('questionUrls')">Copy URLs</button>
+          <div id="questionUrls">No URLs</div>
+        </div>
+        <div id="communityProfileSection" class="container">
+          <h3>/community/profile/</h3>
+          <button class="copy-button" onclick="copyToClipboard('communityProfileUrls')">Copy URLs</button>
+          <div id="communityProfileUrls">No URLs</div>
+        </div>
+        <div id="userSection" class="container">
+          <button class="copy-button" onclick="copyToClipboard('userUrls')">Copy URLs</button>
+          <h3>/user/</h3>
+          <div id="userUrls">No URLs</div>
+        </div>
+        <div id="discussionsSection" class="container">
+          <h3>/discussions/</h3>
+          <button class="copy-button" onclick="copyToClipboard('discussionsUrls')">Copy URLs</button>
+          <div id="discussionsUrls">No URLs</div>
+        </div>
+        <div id="uSection" class="container">
+          <h3>/u/</h3>
+          <button class="copy-button" onclick="copyToClipboard('uUrls')">Copy URLs</button>
+          <div id="uUrls">No URLs</div>
+        </div>
+        <div id="snippetsSection" class="container">
+          <h3>/snippets/</h3>
+          <button class="copy-button" onclick="copyToClipboard('snippetsUrls')">Copy URLs</button>
+          <div id="snippetsUrls">No URLs</div>
+        </div>
+        <div id="issuesSection" class="container">
+          <h3>/issues/</h3>
+          <button class="copy-button" onclick="copyToClipboard('issuesUrls')">Copy URLs</button>
+          <div id="issuesUrls">No URLs</div>
+        </div>
+        <div id="projectsSection" class="container">
+          <h3>-/projects</h3>
+          <button class="copy-button" onclick="copyToClipboard('projectsUrls')">Copy URLs</button>
+          <div id="projectsUrls">No URLs</div>
+        </div>
+        <div id="tabFieldCorePfieldSection" class="container">
+          <h3>?tab=field_core_pfield</h3>
+          <button class="copy-button" onclick="copyToClipboard('tabFieldCorePfieldUrls')">Copy URLs</button>
+          <div id="tabFieldCorePfieldUrls">No URLs</div>
+        </div>
+        <div id="peopleSection" class="container">
+          <h3>/people/</h3>
+          <button class="copy-button" onclick="copyToClipboard('peopleUrls')">Copy URLs</button>
+          <div id="peopleUrls">No URLs</div>
+        </div>
+        <div id="ideasSection" class="container">
+          <h3>/ideas/</h3>
+          <button class="copy-button" onclick="copyToClipboard('ideasUrls')">Copy URLs</button>
+          <div id="ideasUrls">No URLs</div>
+        </div>
+        <div id="boardSection" class="container">
+          <h3>/board/board_topic/</h3>
+          <button class="copy-button" onclick="copyToClipboard('boardUrls')">Copy URLs</button>
+          <div id="boardUrls">No URLs</div>
+        </div>
+        <div id="forumThreadSection" class="container">
+          <h3>/forum/thread/</h3>
+          <button class="copy-button" onclick="copyToClipboard('forumThreadUrls')">Copy URLs</button>
+          <div id="forumThreadUrls">No URLs</div>
+        </div>
+        <div id="blogsSection" class="container">
+          <h3>/blogs/</h3>
+          <button class="copy-button" onclick="copyToClipboard('blogsUrls')">Copy URLs</button>
+          <div id="blogsUrls">No URLs</div>
+        </div>
+        <div id="listingSection" class="container">
+          <h3>/listing/</h3>
+          <button class="copy-button" onclick="copyToClipboard('listingUrls')">Copy URLs</button>
+          <div id="listingUrls">No URLs</div>
+        </div>
+        <div id="mysiteGroupSection" class="container">
+          <h3>mysite-200-group</h3>
+          <button class="copy-button" onclick="copyToClipboard('mysiteGroupUrls')">Copy URLs</button>
+          <div id="mysiteGroupUrls">No URLs</div>
+        </div>
+        <div id="groupSection" class="container">
+          <h3>/group/</h3>
+          <button class="copy-button" onclick="copyToClipboard('groupUrls')">Copy URLs</button>
+          <div id="groupUrls">No URLs</div>
+        </div>
+        <div id="forumsTopicSection" class="container">
+          <h3>/forums/topic/</h3>
+          <button class="copy-button" onclick="copyToClipboard('forumsTopicUrls')">Copy URLs</button>
+          <div id="forumsTopicUrls">No URLs</div>
+        </div>
+        <div id="mncoPostsSection" class="container">
+          <h3>mn.co/posts/</h3>
+          <button class="copy-button" onclick="copyToClipboard('mncoPostsUrls')">Copy URLs</button>
+          <div id="mncoPostsUrls">No URLs</div>
+        </div>
+        <div id="memberSection" class="container">
+          <h3>/member/</h3>
+          <button class="copy-button" onclick="copyToClipboard('memberUrls')">Copy URLs</button>
+          <div id="memberUrls">No URLs</div>
+        </div>
+        <div id="candidateSection" class="container">
+          <h3>/candidate/</h3>
+          <button class="copy-button" onclick="copyToClipboard('candidateUrls')">Copy URLs</button>
+          <div id="candidateUrls">No URLs</div>
+        </div>
+        <div id="authorSection" class="container">
+          <h3>/author/</h3>
+          <button class="copy-button" onclick="copyToClipboard('authorUrls')">Copy URLs</button>
+          <div id="authorUrls">No URLs</div>
+        </div>
+        <div id="companySection" class="container">
+          <h3>/company/</h3>
+          <button class="copy-button" onclick="copyToClipboard('companyUrls')">Copy URLs</button>
+          <div id="companyUrls">No URLs</div>
+        </div>
+        <div id="companiesSection" class="container">
+          <h3>/companies/</h3>
+          <button class="copy-button" onclick="copyToClipboard('companiesUrls')">Copy URLs</button>
+          <div id="companiesUrls">No URLs</div>
+        </div>
+        <div id="forumsUsersSection" class="container">
+          <h3>/forums/users/</h3>
+          <button class="copy-button" onclick="copyToClipboard('forumsUsersUrls')">Copy URLs</button>
+          <div id="forumsUsersUrls">No URLs</div>
+        </div>
+        <div id="classifiedsSection" class="container">
+          <h3>/classifieds/</h3>
+          <button class="copy-button" onclick="copyToClipboard('classifiedsUrls')">Copy URLs</button>
+          <div id="classifiedsUrls">No URLs</div>
+        </div>
+        <div id="adsSection" class="container">
+          <h3>/ads/</h3>
+          <button class="copy-button" onclick="copyToClipboard('adsUrls')">Copy URLs</button>
+          <div id="adsUrls">No URLs</div>
+        </div>
+        <div id="users2Section" class="container">
+          <h3>/users/</h3>
+          <button class="copy-button" onclick="copyToClipboard('users2Urls')">Copy URLs</button>
+          <div id="users2Urls">No URLs</div>
+        </div>
+        <div id="member2Section" class="container">
+          <h3>/members/</h3>
+          <button class="copy-button" onclick="copyToClipboard('member2Urls')">Copy URLs</button>
+          <div id="member2Urls">No URLs</div>
+        </div>
+        <div id="topicSection" class="container">
+          <h3>/topic/</h3>
+          <button class="copy-button" onclick="copyToClipboard('topicUrls')">Copy URLs</button>
+          <div id="topicUrls">No URLs</div>
+        </div>
+        <div id="servicesSection" class="container">
+          <h3>/services/</h3>
+          <button class="copy-button" onclick="copyToClipboard('servicesUrls')">Copy URLs</button>
+          <div id="servicesUrls">No URLs</div>
+        </div>
+        <div id="discussSection" class="container">
+          <h3>/discuss/</h3>
+          <button class="copy-button" onclick="copyToClipboard('discussUrls')">Copy URLs</button>
+          <div id="discussUrls">No URLs</div>
+        </div>
+        <div id="profile2Section" class="container">
+          <h3>/profiles/</h3>
+          <button class="copy-button" onclick="copyToClipboard('profile2Urls')">Copy URLs</button>
+          <div id="profile2Urls">No URLs</div>
+        </div>
+        <div id="employer2Section" class="container">
+          <h3>/employers/</h3>
+          <button class="copy-button" onclick="copyToClipboard('employer2Urls')">Copy URLs</button>
+          <div id="employer2Urls">No URLs</div>
+        </div>
+        <div id="wikiSection" class="container">
+          <h3>/wiki/</h3>
+          <button class="copy-button" onclick="copyToClipboard('wikiUrls')">Copy URLs</button>
+          <div id="wikiUrls">No URLs</div>
+        </div>
+        <div id="postsSection" class="container">
+          <h3>/posts/</h3>
+          <button class="copy-button" onclick="copyToClipboard('postsUrls')">Copy URLs</button>
+          <div id="postsUrls">No URLs</div>
+        </div>
+        <div id="pSection" class="container">
+          <h3>/p/</h3>
+          <button class="copy-button" onclick="copyToClipboard('pUrls')">Copy URLs</button>
+          <div id="pUrls">No URLs</div>
+        </div>
+        <div id="pageSection" class="container">
+          <h3>/page/</h3>
+          <button class="copy-button" onclick="copyToClipboard('pageUrls')">Copy URLs</button>
+          <div id="pageUrls">No URLs</div>
+        </div>
+        <div id="@Section" class="container">
+          <h3>/@</h3>
+          <button class="copy-button" onclick="copyToClipboard('atSignUrls')">Copy URLs</button>
+          <div id="atSignUrls">No URLs</div>
+        </div>
+        <div id="mediaSection" class="container">
+          <h3>Media</h3>
+          <button class="copy-button" onclick="copyToClipboard('mediaUrls')">Copy URLs</button>
+          <div id="mediaUrls">No URLs</div>
+        </div>
+        <div id="webPageSection" class="container">
+          <h3>/Webpage/</h3>
+          <button class="copy-button" onclick="copyToClipboard('webPageUrls')">Copy URLs</button>
+          <div id="webPageUrls">No URLs</div>
+        </div>
+        <div id="blogSection" class="container">
+          <h3>/blog/</h3>
+          <button class="copy-button" onclick="copyToClipboard('blogUrls')">Copy URLs</button>
+          <div id="blogUrls">No URLs</div>
+        </div>
+        <div id="ideaSection" class="container">
+          <h3>/idea/</h3>
+          <button class="copy-button" onclick="copyToClipboard('ideaUrls')">Copy URLs</button>
+          <div id="ideaUrls">No URLs</div>
+        </div>
+        <div id="forumsSection" class="container">
+          <h3>/forums/</h3>
+          <button class="copy-button" onclick="copyToClipboard('forumsUrls')">Copy URLs</button>
+          <div id="forumsUrls">No URLs</div>
+        </div>
+        <div id="guestbookHtmlSection" class="container">
+          <h3>/guestbook.html</h3>
+          <button class="copy-button" onclick="copyToClipboard('guestbookHtmlUrls')">Copy URLs</button>
+          <div id="guestbookHtmlUrls">No URLs</div>
+        </div>
+        <div id="viewtopicSection" class="container">
+          <h3>/viewtopic.</h3>
+          <button class="copy-button" onclick="copyToClipboard('viewtopicUrls')">Copy URLs</button>
+          <div id="viewtopicUrls">No URLs</div>
+        </div>
     </div>
     <script>
       function separateUrls() {
@@ -1661,6 +1735,15 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
       }
+      window.onload = () => {
+        const overlay = document.getElementById('introOverlay');
+        const totalAnimationTime = 1.0 + 0.8; // seconds, adjust if needed
+        // Wait for the animation to finish
+        setTimeout(() => {
+          overlay.style.display = 'none'; // hide overlay
+          document.getElementById('mainTool').style.display = 'block'; // show main content
+        }, totalAnimationTime * 1000);
+      };
     </script>
   </body>
-</html>
+</html> 
