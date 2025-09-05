@@ -6,12 +6,21 @@
     <title>Logo Intro then Main Tool</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: 'Arial', sans-serif;
         max-width: 1200px;
-        margin: auto;
+        margin: 0 auto;
         padding: 20px;
-        background: #F0EDCC;
+        background-color: #F0EDCC;
         color: #02343F;
+        line-height: 1.6;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      /* Optional: Add a hover effect for background */
+      body:hover {
+        background-color: #e6e0b8;
+        /* Slightly darker shade for interactivity */
       }
       /* Overlay covering the entire page for intro animation */
       #introOverlay {
@@ -71,29 +80,79 @@
         /* Hidden until overlay is gone */
       }
       textarea {
-        width: 100%;
+        width: 92%;
         margin-bottom: 10px;
-        padding: 8px;
+        padding: 10px 12px;
         font-size: 14px;
-        background: #F0EDCC;
+        font-family: 'Arial', sans-serif;
+        background-color: #F0EDCC;
         color: #02343F;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+        /* Allows vertical resizing only */
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+      }
+      /* Add focus styles for better accessibility and visual feedback */
+      textarea:focus {
+        border-color: #02343F;
+        box-shadow: 0 0 8px rgba(2, 52, 63, 0.3);
+        outline: none;
+        /* Remove default outline for a cleaner look */
+        transition: box-shadow 0.2s ease, border-color 0.2s ease;
       }
       button {
         padding: 10px 15px;
-        color: white;
+        color: #ffffff;
+        background-color: #007BFF;
+        /* Example primary color, customize as needed */
         border: none;
+        border-radius: 4px;
         cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, opacity 0.3s, box-shadow 0.2s;
       }
       button:hover {
         opacity: 0.9;
+        background-color: #0069d9;
+        /* Slightly darker on hover */
+      }
+      button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+      }
+      button:active {
+        transform: translateY(1px);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
       }
       .container {
         position: relative;
         background: #F0EDCC;
-        padding: 10px;
+        /* Soft, neutral background */
+        padding: 20px;
+        /* Increased padding for better spacing */
         border: 1px solid #ccc;
+        /* Subtle border */
         margin-top: 20px;
+        border-radius: 8px;
+        /* Rounded corners for a modern look */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Light shadow for depth */
         white-space: pre-wrap;
+        /* Preserve whitespace and wrap as needed */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Improved typography */
+        max-width: 100%;
+        /* Responsive width */
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        /* Smooth hover effects */
+      }
+      /* Optional: Add a hover effect for interactivity */
+      .container:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
       }
       h3 {
         margin-top: 0;
@@ -104,33 +163,76 @@
       .copy-button {
         position: absolute;
         top: 10px;
-        /* adjust as needed */
+        /* Adjust as needed */
         left: 10px;
-        /* adjust as needed */
+        /* Adjust as needed */
         background-color: #02343F;
-        color: white;
+        /* Primary color */
+        color: #fff;
+        /* Text color */
         border: none;
-        padding: 5px 10px;
-        border-radius: 4px;
+        padding: 8px 16px;
+        /* Slightly larger for better clickability */
+        border-radius: 6px;
+        /* More rounded corners for a modern look */
         cursor: pointer;
-        font-size: 12px;
-        transition: background-color 0.3s, box-shadow 0.2s;
+        font-size: 14px;
+        /* Slightly larger for readability */
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /* Clean font */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* Subtle base shadow */
+        outline: none;
+        /* Remove default outline for custom focus styles */
       }
+      /* Focus styles for accessibility */
+      .copy-button:focus {
+        outline: 3px solid #0056b3;
+        /* Clear focus indicator */
+        outline-offset: 2px;
+        box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.3);
+      }
+      /* Hover state with enhanced effects */
       .copy-button:hover {
         background-color: #0056b3;
-        /* Darker blue on hover */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Darker blue */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px);
+        /* Slight lift effect */
       }
+      /* Active (click) state with inset shadow for feedback */
       .copy-button:active {
         background-color: #004080;
-        /* Even darker on click */
+        /* Even darker shade */
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(0);
+        /* Reset lift on click */
       }
       #urlInput::placeholder {
         color: #02343F;
-        /* Replace with your desired color */
-        opacity: 1;
-        /* Optional: make placeholder fully opaque */
+        /* Primary placeholder color */
+        opacity: 0.8;
+        /* Slight transparency for a softer look */
+        font-style: italic;
+        /* Adds a distinguished style */
+        font-weight: 400;
+        /* Regular weight for consistency */
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /* Consistent font */
+        font-size: 14px;
+        /* Match input font size for harmony */
+        transition: color 0.3s ease, opacity 0.3s ease;
+        /* Smooth transitions for interactions */
+      }
+      /* Optional: Change placeholder style on focus for better UX */
+      #urlInput:focus::placeholder {
+        color: #0056b3;
+        /* Slight color change to indicate focus */
+        opacity: 0.7;
       }
       #downloadBtn {
         color: #F0EDCC;
@@ -138,6 +240,30 @@
       }
       .container h3 {
         color: #02343F;
+        /* Original color */
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /* Clean, modern font */
+        font-size: 24px;
+        /* Increased size for prominence */
+        font-weight: 600;
+        /* Slightly bold for emphasis */
+        margin-bottom: 16px;
+        /* Space below the heading */
+        line-height: 1.4;
+        /* Better readability */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        /* Subtle text shadow for depth */
+        letter-spacing: 0.5px;
+        /* Slight letter spacing for elegance */
+        transition: color 0.3s ease, transform 0.2s ease;
+        /* Smooth effects on interaction */
+      }
+      /* Optional: Add hover effect for interactivity */
+      .container h3:hover {
+        color: #005F7A;
+        /* Slightly lighter or different shade on hover */
+        transform: translateY(-2px);
+        /* Slight lift on hover */
       }
     </style>
   </head>
@@ -1746,4 +1872,4 @@
       };
     </script>
   </body>
-</html> 
+</html>
